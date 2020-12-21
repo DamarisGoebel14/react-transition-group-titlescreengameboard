@@ -1,28 +1,24 @@
 import './App.css';
-import React from 'react'
+import React, {useState} from 'react'
 import { CSSTransition } from "react-transition-group";
 
 
-class App extends React.Component {
-    constructor() {
-        super();
+function App () {
 
-        this.state = {
-            titleScreen: true,
-            gameBoard: false
-        };
+    const [titleScreen, setTitleScreen] = useState(true)
+    const [gameBoard, setGameBoard] = useState(false)
+
+
+   function startGame () {
+        setTitleScreen(false);
     }
 
-    startGame = () => {
-        this.setState({ titleScreen: false });
-    }
 
-    render() {
         return (
             <div className="game">
 
                 <CSSTransition
-                    in={this.state.titleScreen}
+                    in={titleScreen}
                     timeout={{
                         appear: 2000,
                         exit: 800
@@ -31,12 +27,13 @@ class App extends React.Component {
                     unmountOnExit={true}
                     appear={true}
                     enter={false}
-                    onExited={() => this.setState({ gameBoard: true })}>
-                    <TitleScreen startGame={this.startGame} />
+                    onExited={() => setGameBoard(true)}
+                    >
+                    <TitleScreen startGame={startGame} />
                 </CSSTransition>
 
                 <CSSTransition
-                    in={this.state.gameBoard}
+                    in={gameBoard}
                     timeout={1000}
                     mountOnEnter={true}
                     classNames="game-board-">
@@ -45,7 +42,7 @@ class App extends React.Component {
 
             </div>
         );
-    }
+
 }
 
 // ------------
